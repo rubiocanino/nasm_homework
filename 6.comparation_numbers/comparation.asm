@@ -34,7 +34,7 @@ section .bss
     intResult   resb 1
 
 section .text
-	global _start ; Mandamos a llamar la funcion start
+	global _start 
 
 _start:
     call _printWelcome
@@ -80,17 +80,20 @@ _captureNumber2:
     int 0x80
 
 _compareFunction:
-    mov ah, [intNumber1]
-    sub ah, '0'
-
-    mov al, [intNumber2]
-    sub al, '0'
+    mov ah, [intNumber1]    ;We assignt the first value to ah
+    sub ah, '0'             ;Now we do a subsctraction for the hexamdecimal ASCCI value of 0 = 30
+                            ;EXAMPLE: The first input will be equal to 3
+                            ; 3 decimal = 33 hexadecimal ASCII
+                            ; 33 - 30 = 3
+    mov al, [intNumber2]    ; And the second input will be equal to 2   
+    sub al, '0'             ; 2 decimal = 32 hexadecimal ASCII
+                            ; 32 - 40 = 2
     
-
-    cmp byte ah, al
-    je _equal    
-    jg _true
-    jle _less    
+                            ;NOTE: All the comparation are the first one respect the second one
+    cmp byte ah, al         ;Now we compare the 3 and 2
+    je _equal               ; If the values are equal, then we jump to _equal function
+    jg _true                ; If the first value greater, then we jump to _true
+    jle _less               ; If the first values is tinier, then we jump to _less
 
     mov eax, SYS_EXIT
 

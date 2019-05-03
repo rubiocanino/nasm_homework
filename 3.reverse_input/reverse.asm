@@ -3,19 +3,19 @@ section .data
     %define	SYS_EXIT	1
     %define	SYS_WRITE	4
     %define	SYS_READ	3
-    %define	STDOUT		1
-    %define STDIN       0
+    %define	STDOUT		1   ;STANDART OUT
+    %define STDIN       0   ;STANDART IN
 
-    welcomeMessage db "Reverse V.1.0",0xa,0xa
-    intLenWelcome equ $- welcomeMessage
+    welcomeMessage db "Reverse V.1.0",0xa,0xa   ; 0xa,0xa to have to \n
+    intLenWelcome equ $- welcomeMessage         ;We calculate the length of the message with $- VARIABLE
 
 	inputNameMessage db "What's your name ? : ",0xa
-    intLenNameMessage equ $- inputNameMessage
+    intLenNameMessage equ $- inputNameMessage   ;We calculate the length of the message with $- VARIABLE
 
-    inputName times 64 db 0, 0xa 
-    max equ 64
+    inputName times 64 db 0, 0xa        ; Gets intializate the vector where it's gonna be the string
+    max equ 64                          ; 64 bits for the memory reserved
 
-    charLine db 0ax
+    charLine db 0ax                     ; Line break
 
 section .text
     global _start
@@ -25,9 +25,9 @@ _start:
     call _printMessage1
     call _captureName
     call _function
-    call _closeProgram
     call _printLine
     call _printResult
+    call _closeProgram
 
 _printWelcome:
     mov edx, intLenWelcome
@@ -45,21 +45,21 @@ _printMessage1:
 
 
 _captureName:  
-    mov rdx,max
-    mov rsi,inputName
-    mov rdi,0
-    mov rax,0
+    mov rdx,max         ; We especify 64 bits in the reserved memory
+    mov rsi,inputName   ; Point to our vector
+    mov rdi,1
+    mov rax,STDIN
     syscall
 
 _function:
-    mov rcx,rax     ; Copy the string for later
-    mov rdi,inputName     ; Set RDI and RSI to point at message
-    mov rsi,inputName     ;
-    add rdi,rax     ; RDI should point at last character in message
-    dec rdi         ;
-    shr rax,1       ; Divide length by 2
+    mov rcx,rax         ; Copy the string for later
+    mov rdi,inputName   ; Set RDI and RSI to point at message
+    mov rsi,inputName   ;
+    add rdi,rax         ; RDI should point at last character in message
+    dec rdi             ;
+    shr rax,1           ; Divide length by 2
 
-_loop:            ; Begin loop:
+_loop:              ; Begin loop:
     mov bl,[rsi]    ; Swap the characters using 8 bit registers
     mov bh,[rdi]    ; 
     mov [rsi],bh    ; 
@@ -71,10 +71,10 @@ _loop:            ; Begin loop:
 
 ; Write
 _printResult:
-    mov rdx,rcx ; nbytes
-    mov rsi,inputName ; *msg
-    mov rdi,1 ; stream
-    mov rax,1 ; syscall
+    mov rdx,rcx         ; Get the nbytes required
+    mov rsi,inputName   ; *msg    
+    mov rdi,1           ; We are going to stream the result
+    mov rax,1           ; syscall    
     syscall
 
 _printLine:

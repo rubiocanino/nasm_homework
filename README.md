@@ -3,6 +3,14 @@ All the programs are made with the mission to undersntad how the
 memory management work in a computer. So it's just the basics for
 this little programs.
 
+To compile the programs you only need to:
+(yes without the file extension)
+
+`./generate.sh name_file`
+
+#Example 
+`./generate.sh hello`
+
 The programs with math (3,4,5) just work with digits and and the
 result needs to be also just a digit.
 

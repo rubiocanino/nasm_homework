@@ -25,7 +25,7 @@ section .bss
     intResult   resb 1
 
 section .text
-	global _start ; Mandamos a llamar la funcion start
+	global _start ; We start the program
 
 _start:
     call _printWelcome
@@ -73,16 +73,22 @@ _captureNumber2:
     int 0x80
 
 _additionFunction:
-    mov eax, [intNumber1]
-    sub eax, '0'
-
-    mov ebx, [intNumber2]
+    mov eax, [intNumber1]   ; We point to memory value of INTNUMBER1
+    sub eax, '0'            ; We subtract the hexadecimal value 0 to substract 48
+                            ; Example: 
+                            ; 5 decimal = 35 hexadecimal ASCII
+                            ; 35-30 = 5
+                               
+    mov ebx, [intNumber2]   ;Same as above
     sub ebx, '0'
+                            ; 2 decimal = 32 hexadecimal ASCII
+                            ; 32-30= 2
 
-    add eax,ebx
-    add eax, '0'
+    add eax,ebx             ; 5 + 2 = 7
+    add eax, '0'            ; 7 + 30 = 37
+                            ; 7 decimal is = 37 hexadecimal ASCII
 
-    mov [intResult], eax
+    mov [intResult], eax    ; We assign the value 37 hexadecimal value to intResult
 
 _printResult:
     mov edx, intLenResultMessage

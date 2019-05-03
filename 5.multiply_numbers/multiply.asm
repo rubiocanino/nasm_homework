@@ -20,12 +20,12 @@ section .data
     charLine db 0ax
 
 section .bss
-    intNumber1  resb 1
-    intNumber2  resb 1
-    intResult   resb 1
+    intNumber1  resb 1      ; We reserve 1 byte for the digit that are we going to manipulate
+    intNumber2  resb 1      ; We reserve 1 byte for the digit that are we going to manipulate
+    intResult   resb 1      ; We reserve 1 byte for the digit that are we going to manipulate
 
 section .text
-	global _start ; Mandamos a llamar la funcion start
+	global _start 
 
 _start:
     call _printWelcome
@@ -73,16 +73,21 @@ _captureNumber2:
     int 0x80
 
 _multiplyFunction:
-    mov eax, [intNumber1]
-    sub eax, '0'
+    mov eax, [intNumber1]   ; We point to memory value of INTNUMBER1
+    sub eax, '0'            ; We subtract the hexadecimal value 0 to substract 30
+                            ; Example: 
+                            ; 4 decimal = 34 hexadecimal ASCII
+                            ; 34 - 30 = 4 
+                                                        
+    mov ebx, [intNumber2]   ; 2 decimal = 32 hexadecimal ASCII
+    sub ebx, '0'            ; 32 - 30 = 2
 
-    mov ebx, [intNumber2]
-    sub ebx, '0'
+    mul ebx                 ; 4 * 2 = 8
+                        
+    add eax, '0'            ; 8 + 30 = 38
+                            ; 8 decimal = 38 hexadecimal ASCII
 
-    mul ebx
-    add eax, '0'
-
-    mov [intResult], eax
+    mov [intResult], eax    ; We assign the value to intResutl
 
 _printResult:
     mov edx, intLenResultMessage
