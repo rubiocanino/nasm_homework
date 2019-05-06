@@ -1,0 +1,7 @@
+Saul Rubio Guerrero 
+16460015
+Vowels counter	
+
+
+# Memory mannagement
+objdump -D vowels_count.asms
