@@ -17,22 +17,14 @@ section	.text
    global _start
 
 _start:
-    call _printWelcome
+    mov eax,SYS_WRITE
+    mov ebx,STDOUT
+    mov ecx,welcomeMessage
+    mov edx,intLenWelcome
+    int 0x80
 
     mov ecx,10
     mov eax, '1'
-
-    call _loop   
-    call _closeProgram
-
-
-_printWelcome:
-    mov edx, intLenWelcome
-    mov ecx, welcomeMessage
-    mov ebx, STDOUT
-    mov eax, SYS_WRITE
-    int 0x80
-    ret
 
 _loop:
     mov [num], eax
@@ -54,7 +46,6 @@ _loop:
     loop _loop
 
     call _closeProgram
-    ret
 
 _printLine:
     mov eax,SYS_WRITE
@@ -67,4 +58,3 @@ _printLine:
 _closeProgram:
     mov eax, SYS_EXIT
     int 0x80
-    ret
